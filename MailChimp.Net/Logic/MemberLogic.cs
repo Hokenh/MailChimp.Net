@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using static System.Net.Http.HttpContentExtensions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,8 +174,8 @@ namespace MailChimp.Net.Logic
                     client.GetAsync(
                         $"{listId}/members/{this.Hash(emailAddress.ToLower())}/activity{request?.ToQueryString()}").ConfigureAwait(false);
                 await response.EnsureSuccessMailChimpAsync().ConfigureAwait(false);
-                var goalResponse = await response.Content.ReadAsAsync<ActivityResponse>().ConfigureAwait(false);
-                return goalResponse.Activities;
+                var activityResponse = await response.Content.ReadAsAsync<ActivityResponse>().ConfigureAwait(false);
+                return activityResponse.Activities;
             }
         }
 
